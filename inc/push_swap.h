@@ -6,7 +6,7 @@
 /*   By: abollia <abollia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 14:18:31 by abollia           #+#    #+#             */
-/*   Updated: 2025/02/10 13:15:39 by abollia          ###   ########.fr       */
+/*   Updated: 2025/04/15 11:42:58 by abollia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include <fcntl.h>
-# include "../libft/libft.h"
+# include "../libft/inc/libft.h"
 
 typedef struct s_node
 {

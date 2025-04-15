@@ -7,6 +7,11 @@ NAME		=	push_swap
 CC			=	cc
 FLAGS		=	-Wall -Werror -Wextra -g3
 
+OBJ_DIR		=	obj
+SRC_DIR		=	src \
+				src/algo \
+				srcops 
+
 #---------------------------\\\\\___SOURCES___/////----------------------------#
 
 SRC			=	${MAIN} ${ALGO} ${OPS}
@@ -30,33 +35,40 @@ OPS			=	./src/ops/ops_swap.c \
 
 LIBFT		=	./libft/libft.a
 
-OBJ			=	${SRC:.c=.o}
+OBJ			=	$(patsubst %.c,${OBJ_DIR}/%.o,${SRC})
 
 #----------------------------\\\\\___RULES___/////-----------------------------#
 
 all:			${NAME} 
 
-%.o: %.c
-				@${CC} ${FLAGS} -c $< -o ${<:.c=.o}
+${OBJ_DIR}/%.o: %.c | ${OBJ_DIR}
+				@mkdir -p $(dir $@)
+				@${CC} ${FLAGS} -c $< -o $@
+
+${OBJ_DIR}:
+				@mkdir -p ${OBJ_DIR}
 
 ${LIBFT}:
-				@echo "🧠 Compiling libft..."
+				@echo "📡 Pulling libft..."
+				@git clone https://github.com/abollia/libft.git > /dev/null 2>&1;
 				@make -C libft
 
-${NAME}:		${OBJ} ${LIBFT}
+vpath %.c . ${SRC_DIR}
+
+${NAME}:		${LIBFT} ${OBJ}
 				@echo "🧠 Compiling ${NAME}..."
 				@${CC} ${FLAGS} ${OBJ} ${LIBFT} -o ${NAME}
-				@echo "✅ 🦾 ${NAME} is ready!"
+				@echo "✅🦾 ${NAME} is ready!"
 
 clean:
 				@echo "🚮 Removing project files..."
-				@rm -f ${OBJ}
+				@rm -rf ${OBJ_DIR}
 				@make clean -C ./libft
 
 fclean:			clean
 				@echo "🚮 Removing project..."
 				@rm -f ${NAME}
-				@rm -f ${LIBFT}
+				@rm -rf libft
 				@echo "❌ ${NAME} has been removed."
 
 re:				fclean all
